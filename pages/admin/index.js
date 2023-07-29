@@ -23,12 +23,12 @@ export default function SignInSide() {
 
 
   const [loginData, setLoginData] = useState({
-    userName: "",
+    email: "",
     password: ""
   })
   async function adminLogin() {
     const bodyData = {
-      username: loginData.userName,
+      email: loginData.email,
       password: loginData.password
     }
     try {
@@ -87,11 +87,11 @@ export default function SignInSide() {
                 margin="normal"
                 required
                 fullWidth
-                label="Username"
-                name="userName"
+                label="email"
+                name="email"
                 type="text"
                 autoFocus
-                value={loginData.userName}
+                value={loginData.email}
                 onChange={handleChange}
               />
               <TextField
