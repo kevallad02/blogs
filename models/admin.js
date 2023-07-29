@@ -1,22 +1,17 @@
-// File: ./models/admin.js
+// models/User.js
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
 
 const adminSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
+  email: { type: String, required: true },
   password: { type: String, required: true },
 });
 
-// Hash the admin password before saving it to the database
-adminSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) {
-    return next();
-  }
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
-});
+let Admin;
 
-const Admin = mongoose.models.Admin || mongoose.model('Admin', adminSchema);
+try {
+  Admin = mongoose.model('Admin');
+} catch (e) {
+  Admin = mongoose.model('Admin', adminSchema);
+}
 
 export default Admin;
