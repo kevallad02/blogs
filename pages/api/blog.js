@@ -65,6 +65,34 @@ async function addBlog(req, res, next) {
             res.status(500).json({ message: 'Error fetching blog by ID', error: error.message });
         }
     }
+    if (req.method === 'PUT') {
+        try {
+          const { id } = req.query;
+          const { title, shortDescription, image, longDescription, category } = req.body;
+    
+          // Find the blog post by ID
+          const blog = await BlogModel.findById(id).exec();
+    
+          if (!blog) {
+            return res.status(404).json({ message: 'Blog not found' });
+          }
+    
+          // Update the blog post with new data
+          blog.title = title;
+          blog.shortDescription = shortDescription;
+          blog.image = image;
+          blog.longDescription = longDescription;
+          blog.category = category;
+    
+          // Save the updated blog post to the database
+          await blog.save();
+    
+          res.status(200).json({ message: 'Blog updated successfully', blog });
+        } catch (error) {
+          console.error('Error updating blog:', error);
+          res.status(500).json({ message: 'Error updating blog', error: error.message });
+        }
+      }
 }
 
 module.exports = addBlog;

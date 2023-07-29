@@ -1,5 +1,6 @@
 // File: ./db/mongoose.js
 import mongoose from 'mongoose';
+import 'dotenv';
 
 const MONGODB_URI = process.env.MONGO_URI;
 
