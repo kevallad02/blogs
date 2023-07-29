@@ -11,6 +11,6 @@ const blogSchema = new Schema({
     category: { type: String, required: true }
 });
 
-const Blog = mongoose.model("Blog", blogSchema);
+const BlogModel = mongoose.models.Blog || mongoose.model('Blog', blogSchema);
 
-module.exports = Blog;
+module.exports = BlogModel;

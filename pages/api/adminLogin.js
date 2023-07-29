@@ -1,19 +1,13 @@
-// File: ./pages/api/adminLogin.js
-import dbConnect from '@/db/mongoose';
 import Admin from '@/models/admin';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-
+require('dotenv').config()
 export default async function handler(req, res) {
-    console.log('req.method', req.method)
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
     const { username, password } = req.body;
-
-    // Connect to the database
-    const conn = await dbConnect();
 
     try {
         // Find the admin by username
@@ -30,10 +24,13 @@ export default async function handler(req, res) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
+        const token = jwt.sign({ username: admin.id }, process.env.JWT_SECRET, {
+            expiresIn: '30d', // Token expiration time (e.g., 1 hour)
+        });
         // Create a JWT token for authentication
-        const token = jwt.sign({ username: admin.username }, 'your-secret-key');
+        // const token = jwt.sign({ username: admin.username }, process.env.JWT_SECRET);
         admin.password = undefined;
-        return res.status(200).json({ token, admin });
+        return res.status(200).json({ message: 'Login successful', data: { token, admin } });
     } catch (error) {
         console.error('Error during admin login:', error);
         return res.status(500).json({ error: 'Internal Server Error' });
