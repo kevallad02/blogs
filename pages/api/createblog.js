@@ -1,7 +1,7 @@
 // File: ./pages/api/blogs.js
 import Blog from '@/models/blog';
 import dbConnect from '../../db/mongoose';
-import authenticate from '../../middlewares/authenticate'; // Import the middleware
+import authenticate from '../../middleware/authenticate'; // Import the middleware
 
 export default authenticate(async function handler(req, res) {
     if (req.method === 'POST') {
