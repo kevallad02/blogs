@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
 import Bloglist from "./pages/Bloglist";
 import Sidenav from "./components/navcomponent/Sidebar";
@@ -6,6 +6,7 @@ import Header from "./components/navcomponent/Header";
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useSelector } from "react-redux";
+import AddBlog from "./pages/AddBlog";
 
 function App() {
   const { isLoggedIn } = useSelector(state => state.auth)
@@ -21,12 +22,13 @@ function App() {
 
             </>}
             <div className="content">
-              <Header />
+              {isLoggedIn && <Header />}
+              <Routes>
+                <Route exact path="/admin" element={<Login />} />
+                <Route exact path="/admin/blogs" element={<RestrictPage><Bloglist /></RestrictPage>} />
+                <Route exact path="/admin/add-blogs" element={<RestrictPage><AddBlog /></RestrictPage>} />
+              </Routes>
             </div>
-            <Routes>
-              <Route exact path="/admin" element={<Login />} />
-              <Route exact path="/admin/blogs" element={<Bloglist />} />
-            </Routes>
           </div>
         </ThemeProvider>
       </ColorModeContext.Provider>
@@ -36,3 +38,8 @@ function App() {
 }
 
 export default App;
+
+function RestrictPage({ children }) {
+  const { isLoggedIn } = useSelector(state => state.auth)
+  return (isLoggedIn) ? children : <Navigate to="/admin" replace />;
+}

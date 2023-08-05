@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
-
+@import 'bootstrap/dist/css/bootstrap.min.css';
 html,
 body,
 #root,

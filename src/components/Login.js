@@ -42,6 +42,7 @@ if(isLoggedIn){
                 Cookies.set('isLoggedin', true)
                 Cookies.set('auth', res.data.data.admin.email)
                 dispatch({ type: 'LOGIN_SUCCESS', payload: res.data.data.admin.email })
+                window.location.href = '/admin/blogs'
             }
         } catch (error) {
             console.log('error', error)
