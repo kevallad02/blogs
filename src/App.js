@@ -7,6 +7,7 @@ import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useSelector } from "react-redux";
 import AddBlog from "./pages/AddBlog";
+import Comingsoon from "./components/Comingsoon";
 
 function App() {
   const { isLoggedIn } = useSelector(state => state.auth)
@@ -24,6 +25,7 @@ function App() {
             <div className="content">
               {isLoggedIn && <Header />}
               <Routes>
+                <Route exact path='/' element={<Comingsoon />} />
                 <Route exact path="/admin" element={<Login />} />
                 <Route exact path="/admin/blogs" element={<RestrictPage><Bloglist /></RestrictPage>} />
                 <Route exact path="/admin/add-blogs" element={<RestrictPage><AddBlog /></RestrictPage>} />
