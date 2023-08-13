@@ -4,10 +4,11 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import adminService from '../services/admin.service'
 import { Box, Button, Container } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Bloglist = () => {
     const [blogData, setBlogData] = useState([])
+    const navigate = useNavigate()
     useEffect(() => {
         getBlogApi()
     }, [])
@@ -25,7 +26,7 @@ const Bloglist = () => {
         <>
             <Container>
                 <Box justifyContent='end' display='flex' mt='20px' right='10px'>
-                    <Link>
+                    <Link to="/admin/add-blogs">
                         <Button variant='contained'>Add Blog</Button>
                     </Link>
                 </Box>

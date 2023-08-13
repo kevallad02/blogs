@@ -9,13 +9,14 @@ import { useSelector } from "react-redux";
 import AddBlog from "./pages/AddBlog";
 import Comingsoon from "./components/Comingsoon";
 import { useEffect, useState } from "react";
+import Home from './components/Home'
+import FrontHeader from './components/Home/Header'
 
 function App() {
   const { isLoggedIn } = useSelector(state => state.auth)
   const [adminNav, setAdminNav] = useState(false)
   const [theme, colorMode] = useMode();
-  const { pathname,hostname } = window.location
-  console.log('hostname', hostname)
+  const { pathname, hostname } = window.location
   useEffect(() => {
     { pathname.includes("admin") ? setAdminNav(true) : setAdminNav(false) }
   })
@@ -31,9 +32,11 @@ function App() {
 
             </>}
             <div className="content">
-              {isLoggedIn && adminNav && <Header />}
+              {isLoggedIn && adminNav ? <Header /> : <FrontHeader />}
               <Routes>
-                <Route exact path='/' element={<Comingsoon />} />
+                {hostname === "cyberforest.vercel.app" ?
+                  <Route exact path='/' element={<Comingsoon />} /> :
+                  <Route exact path='/' element={<Home />} />}
                 <Route exact path="/admin" element={<Login />} />
                 <Route exact path="/admin/blogs" element={<RestrictPage><Bloglist /></RestrictPage>} />
                 <Route exact path="/admin/add-blogs" element={<RestrictPage><AddBlog /></RestrictPage>} />
