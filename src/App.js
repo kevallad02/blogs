@@ -31,8 +31,7 @@ function App() {
               <Sidenav />
 
             </>}
-            <div className="content">
-              {isLoggedIn && adminNav ? <Header /> : <FrontHeader />}
+            <div className="content">{isLoggedIn && adminNav ? <Header /> : hostname === "cyberforest.vercel.app" ? "" : <FrontHeader />}
               <Routes>
                 {hostname === "cyberforest.vercel.app" ?
                   <Route exact path='/' element={<Comingsoon />} /> :
