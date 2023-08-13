@@ -8,22 +8,31 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useSelector } from "react-redux";
 import AddBlog from "./pages/AddBlog";
 import Comingsoon from "./components/Comingsoon";
+import StickyHeader from "./components/navcomponent/StickyHeader";
+import { useEffect, useState } from "react";
 
 function App() {
   const { isLoggedIn } = useSelector(state => state.auth)
+  const [adminNav, setAdminNav] = useState(false)
   const [theme, colorMode] = useMode();
+  const { pathname,hostname } = window.location
+  console.log('hostname', hostname)
+  useEffect(() => {
+    { pathname.includes("admin") ? setAdminNav(true) : setAdminNav(false) }
+  })
+
   return (
     <>
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <div className="app">
-            {isLoggedIn && <>
+            {isLoggedIn && adminNav && <>
               <Sidenav />
 
             </>}
             <div className="content">
-              {isLoggedIn && <Header />}
+              {isLoggedIn && adminNav && <Header />}
               <Routes>
                 <Route exact path='/' element={<Comingsoon />} />
                 <Route exact path="/admin" element={<Login />} />
