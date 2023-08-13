@@ -8,7 +8,6 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useSelector } from "react-redux";
 import AddBlog from "./pages/AddBlog";
 import Comingsoon from "./components/Comingsoon";
-import StickyHeader from "./components/navcomponent/StickyHeader";
 import { useEffect, useState } from "react";
 
 function App() {
