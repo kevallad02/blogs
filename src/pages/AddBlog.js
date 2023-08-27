@@ -1,11 +1,11 @@
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Paper, Select, TextField, Typography, useMediaQuery } from '@mui/material'
-import React from 'react'
+import { convertToRaw, EditorState } from 'draft-js';
+import React, { useEffect } from 'react'
 import { useState } from 'react';
-import ReactQuill, { Quill } from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-
+import { Editor } from 'react-draft-wysiwyg'
+import adminService from '../services/admin.service';
+import { useDropzone } from 'react-dropzone';
+import draftToHtml from 'draftjs-to-html'
 const modules = {
     toolbar: [
         [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
@@ -29,22 +29,98 @@ const formats = [
     'link', 'image', 'video'
 ]
 
+const thumbsContainer = {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 16
+};
+
+const thumb = {
+    display: 'inline-flex',
+    borderRadius: 2,
+    border: '1px solid #eaeaea',
+    marginBottom: 8,
+    marginRight: 8,
+    width: 100,
+    height: 100,
+    padding: 4,
+    boxSizing: 'border-box'
+};
+
+const thumbInner = {
+    display: 'flex',
+    minWidth: 0,
+    overflow: 'hidden'
+};
+
+const img = {
+    display: 'block',
+    width: 'auto',
+    height: '100%'
+};
 const AddBlog = () => {
     const isNonMobile = useMediaQuery("(min-width:600px)");
+    const [files, setFiles] = useState([]);
     const [value, setValue] = useState({
         title: "",
         category: "",
-        short_desc: ""
+        short_desc: "",
+        longDesc: EditorState.createEmpty()
     });
-    const [longDesc, setLongDesc] = useState('')
+    const [categories, setCategories] = useState([])
     const handleOnChange = (e) => {
-        const { name, value } = e.target
-        setValue({ ...value, [name]: value })
-    }
-    const handleFormSubmit = () => {
-        console.log('value', value)
+        const { name, value } = e.target;
+        setValue(prevValue => ({ ...prevValue, [name]: value }));
     };
-    console.log('longDesc', longDesc)
+    
+    const handleFormSubmit = async (e) => {
+        e.preventDefault()
+        const desc = draftToHtml(convertToRaw(value.longDesc.getCurrentContent()))
+        const formData = new FormData()
+        formData.append('title', value.title)
+        formData.append('shortDescription', value.short_desc)
+        formData.append('category', value.category)
+        formData.append('image', files[0])
+        formData.append('longDescription',desc)
+        const res = await adminService.addBlogService(formData)
+        console.log('res', res)
+    };
+    useEffect(() => { categoriesList() }, [])
+    async function categoriesList() {
+        try {
+            const res = await adminService.categoriesService()
+            if (res.status) {
+                setCategories(res.data.data)
+            }
+        } catch (error) {
+
+        }
+    }
+
+    const { getRootProps, getInputProps } = useDropzone({
+        accept: {
+            'image/*': []
+        },
+        onDrop: acceptedFiles => {
+            setFiles(acceptedFiles.map(file => Object.assign(file, {
+                preview: URL.createObjectURL(file)
+            })));
+        }
+    });
+
+    const thumbs = files.map(file => (
+        <div style={thumb} key={file.name}>
+            <div style={thumbInner}>
+                <img
+                    src={file.preview}
+                    style={img}
+                    // Revoke data uri after image is loaded
+                    onLoad={() => { URL.revokeObjectURL(file.preview) }}
+                />
+            </div>
+        </div>
+    ));
     return (
         <>
             <Container maxWidth="lg" style={{ marginTop: '2rem' }}>
@@ -77,9 +153,7 @@ const AddBlog = () => {
                                         <FormControl fullWidth variant="outlined">
                                             <InputLabel>Category</InputLabel>
                                             <Select label="Category" name='category' value={value.category} onChange={handleOnChange}>
-                                                <MenuItem value="technology">Technology</MenuItem>
-                                                <MenuItem value="travel">Travel</MenuItem>
-                                                {/* Add more categories */}
+                                                {categories.map((item) => (<MenuItem value={item._id}>{item.categoryName}</MenuItem>))}
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -96,25 +170,24 @@ const AddBlog = () => {
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <CKEditor
-                                            editor={ClassicEditor}
-                                            data={longDesc}
-                                            onReady={editor => {
-                                                // You can store the "editor" and use when it is needed.
-                                                console.log('Editor is ready to use!', editor);
-                                            }}
-                                            onChange={(event, editor) => {
-                                                const data = editor.getData();
-                                                setLongDesc(data)
-                                                console.log({ event, editor, data });
-                                            }}
-                                            onBlur={(event, editor) => {
-                                                console.log('Blur.', editor);
-                                            }}
-                                            onFocus={(event, editor) => {
-                                                console.log('Focus.', editor);
-                                            }}
-                                        />
+                                        <div>
+                                            <Editor
+                                                editorState={value.longDesc}
+                                                onEditorStateChange={(editorState) => setValue({ ...value, longDesc: editorState })}
+                                            />
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <section className="container">
+                                            <div {...getRootProps({ className: 'dropzone' })}>
+                                                <input {...getInputProps()} />
+                                                <p>Drag 'n' drop some files here, or click to select files</p>
+                                            </div>
+                                            <aside style={thumbsContainer}>
+                                                {thumbs}
+                                            </aside>
+                                        </section>
+
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Button variant="contained" color="primary" type="submit">

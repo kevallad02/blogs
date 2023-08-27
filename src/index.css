@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
 @import 'bootstrap/dist/css/bootstrap.min.css';
+@import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 html,
 body,
@@ -154,6 +155,21 @@ a.cyber-nav-links {
   opacity: 1;
   transition: opacity 0.5s ease;
   /* Add opacity transition */
+}
+
+section.container {
+  border: dashed;
+  border-radius: 5px;
+}
+  
+.rdw-editor-main {
+  background: transparent;
+  border-radius: 10px;
+  min-height: 300px;
+  overflow: auto;
+  box-sizing: border-box;
+  max-height: 500px;
+  border: solid #c4c4c4;
 }
 
 @media (max-width: 768px) {

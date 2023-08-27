@@ -13,6 +13,7 @@ const BlogTable = ({ blogData }) => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>ID</TableCell>
+                                <TableCell>Image</TableCell>
                                 <TableCell>Title</TableCell>
                                 <TableCell>Date</TableCell>
                                 <TableCell>Action</TableCell>
@@ -21,6 +22,7 @@ const BlogTable = ({ blogData }) => {
                         {blogData.map((item, i) => (
                             <TableBody>
                                 <TableCell>{i + 1}</TableCell>
+                                <TableCell><img height='100px' width='100px' src={item.image}/></TableCell>
                                 <TableCell>{item.title}</TableCell>
                                 <TableCell>{moment(item.createdDate).format('DD MMM, YYYY')}</TableCell>
                                 <TableCell><EditIcon /> <DeleteIcon /></TableCell>

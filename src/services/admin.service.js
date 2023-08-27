@@ -12,7 +12,17 @@ const blogListService = () => {
         headers: authHeader()
     })
 }
+
+const addBlogService = (data) => {
+    return axios.post(API_URL + 'blog', data, { headers: authHeader() })
+}
+
+const categoriesService = () => {
+    return axios.get(API_URL + 'viewall', { headers: authHeader() })
+}
 export default {
     adminLoginService,
-    blogListService
+    blogListService,
+    addBlogService,
+    categoriesService
 }
