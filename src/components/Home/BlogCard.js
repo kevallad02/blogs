@@ -3,8 +3,10 @@ import React from 'react'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import dummy from '../../assest/images/dummy.jpg'
 import { Share } from '@mui/icons-material';
+import moment from 'moment';
 
-const BlogCard = () => {
+const BlogCard = ({data}) => {
+    console.log('data', data)
     return (
         <>
             <div className='blog-card-main'>
@@ -12,15 +14,13 @@ const BlogCard = () => {
                     <CardMedia
                         component="img"
                         height="194"
-                        image={dummy}
+                        image={data.image}
                         alt="Paella dish"
                     />
                     <CardContent>
-                    <Typography>13 Aug, 2023</Typography>
-                        <Typography variant="body2" >
-                            This impressive paella is a perfect party dish and a fun meal to cook
-                            together with your guests. Add 1 cup of frozen peas along with the mussels,
-                            if you like.
+                    <Typography>{moment(data.createdDate).format('DD MMM, YYYY')}</Typography>
+                        <Typography variant="body2" className='short-desc' >
+                            {data.shortDescription}
                         </Typography>
                     </CardContent>
                     <CardActions>

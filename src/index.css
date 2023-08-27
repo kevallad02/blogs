@@ -157,11 +157,20 @@ a.cyber-nav-links {
   /* Add opacity transition */
 }
 
+.short-desc {
+  margin: 10px 0 0 0 !important;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  color: var(--primary);
+}
+
 section.container {
   border: dashed;
   border-radius: 5px;
 }
-  
+
 .rdw-editor-main {
   background: transparent;
   border-radius: 10px;

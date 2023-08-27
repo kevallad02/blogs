@@ -9,8 +9,8 @@ import { useSelector } from "react-redux";
 import AddBlog from "./pages/AddBlog";
 import Comingsoon from "./components/Comingsoon";
 import { useEffect, useState } from "react";
-import Home from './components/Home'
 import FrontHeader from './components/Home/Header'
+import Home from "./components/Home";
 
 function App() {
   const { isLoggedIn } = useSelector(state => state.auth)
