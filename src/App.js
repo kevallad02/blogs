@@ -13,6 +13,7 @@ import FrontHeader from './components/Home/Header'
 import Home from "./components/Home";
 import BlogDetail from "./components/blogs/BlogDetail";
 import EditBlog from "./pages/EditBlog";
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   const { isLoggedIn } = useSelector(state => state.auth)
@@ -25,6 +26,7 @@ function App() {
 
   return (
     <>
+    <Analytics/>
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
