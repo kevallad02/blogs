@@ -8,14 +8,16 @@ import { Link, useNavigate } from 'react-router-dom'
 
 const Bloglist = () => {
     const [blogData, setBlogData] = useState([])
-    const navigate = useNavigate()
+    const [loader, setLoader] = useState(false)
     useEffect(() => {
         getBlogApi()
     }, [])
     async function getBlogApi() {
+        setLoader(true)
         try {
             const res = await adminService.blogListService()
             if (res.status === 200) {
+                setLoader(false)
                 setBlogData(res.data.data)
             }
         } catch (error) {
@@ -27,10 +29,10 @@ const Bloglist = () => {
             <Container>
                 <Box justifyContent='end' display='flex' mt='20px' right='10px'>
                     <Link to="/admin/add-blogs">
-                        <Button variant='contained'>Add Blog</Button>
+                        <Button color='inherit' variant='contained'>Add Blog</Button>
                     </Link>
                 </Box>
-                <BlogTable blogData={blogData} />
+                <BlogTable loader={loader} blogData={blogData} />
             </Container>
         </>
     )

@@ -53,7 +53,7 @@ const Sidenav = () => {
             }}
         >
             <Sidebar collapsed={isCollapsed}>
-                <Menu iconShape="square">
+                <Menu iconShape="square" style={{backgroundColor:'inherit'}}>
                     {/* LOGO AND MENU ICON */}
                     <MenuItem
                         onClick={() => setIsCollapsed(!isCollapsed)}

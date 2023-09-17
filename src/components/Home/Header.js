@@ -42,8 +42,8 @@ const Header = () => {
                                     <NavLink to='/favourite' className="cyber-nav-links">
                                         Favourite
                                     </NavLink>
-                                    <NavLink to='/tranding' className="cyber-nav-links">
-                                        Tranding
+                                    <NavLink to='/trending' className="cyber-nav-links">
+                                        trending
                                     </NavLink>
                                 </li>
                             </ul>
