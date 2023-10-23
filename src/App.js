@@ -37,9 +37,7 @@ function App() {
             </>}
             <div className="content">{isLoggedIn && adminNav ? <Header /> : hostname === "cyberforest.vercel.app" ? "" : <FrontHeader />}
               <Routes>
-                {hostname === "cyberforest.vercel.app" ?
-                  <Route exact path='/' element={<Comingsoon />} /> :
-                  <Route exact path='/' element={<Home />} />}
+                  <Route exact path='/' element={<Home />} />
                 <Route exact path="/detail" element={<BlogDetail />} />
                 <Route exact path="/admin" element={<Login />} />
                 <Route exact path="/admin/blogs" element={<RestrictPage><Bloglist /></RestrictPage>} />
