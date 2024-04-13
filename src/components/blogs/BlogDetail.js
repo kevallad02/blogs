@@ -1,19 +1,18 @@
 import React from 'react'
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import userService from '../../services/user.service'
 import { useState } from 'react'
 
 const BlogDetail = () => {
-    const location = useLocation().search
-    const id = new URLSearchParams(location).get('id')
+    const { slug } = useParams()
     const [blogDetail, setBlogDetail] = useState({})
     useEffect(() => {
         blogDetailApi()
     }, [])
     const blogDetailApi = async () => {
         try {
-            const res = await userService.blogDetail(id)
+            const res = await userService.blogDetail(slug)
             if (res.status === 200) {
                 setBlogDetail(res.data.data)
             }

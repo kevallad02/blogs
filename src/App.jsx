@@ -26,7 +26,7 @@ function App() {
 
   return (
     <>
-    <Analytics/>
+      <Analytics />
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
@@ -37,8 +37,8 @@ function App() {
             </>}
             <div className="content">{isLoggedIn && adminNav ? <Header /> : <FrontHeader />}
               <Routes>
-                  <Route exact path='/' element={<Home />} />
-                <Route exact path="/detail" element={<BlogDetail />} />
+                <Route exact path='/' element={<Home />} />
+                <Route exact path="/detail/:slug" element={<BlogDetail />} />
                 <Route exact path="/admin" element={<Login />} />
                 <Route exact path="/admin/blogs" element={<RestrictPage><Bloglist /></RestrictPage>} />
                 <Route exact path="/admin/edit-blog" element={<RestrictPage><EditBlog /></RestrictPage>} />
