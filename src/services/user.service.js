@@ -2,8 +2,8 @@ import axios from "axios"
 
 const API_URL = 'https://api.cyberforest.tech/api/'
 
-const blogList = () => {
-    return axios.get(API_URL + 'blog/userblog')
+const blogList = (query) => {
+    return axios.get(API_URL + 'blog/userblog' + query)
 }
 
 const blogDetail = (id) => {

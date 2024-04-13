@@ -7,7 +7,6 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 
 const BlogCard = ({ data }) => {
-    console.log(data, "data");
     return (
         <>
             <div className='blog-card-main'>
