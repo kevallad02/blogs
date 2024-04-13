@@ -1,7 +1,7 @@
 import axios from "axios"
 import authHeader from "./auth.header"
 
-const API_URL = 'https://cyberforestapi.vercel.app/api/admin/'
+const API_URL = 'https://api.cyberforest.tech/api/admin/'
 
 const adminLoginService = (data) => {
     return axios.post(API_URL + 'login', data)

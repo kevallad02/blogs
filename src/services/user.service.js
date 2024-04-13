@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const API_URL = 'https://cyberforestapi.vercel.app/api/'
+const API_URL = 'https://api.cyberforest.tech/api/'
 
 const blogList = () => {
     return axios.get(API_URL + 'blog/userblog')
